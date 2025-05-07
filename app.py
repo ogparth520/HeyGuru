@@ -3,10 +3,10 @@ import json
 import numpy as np
 import faiss
 import re
-import openai
 import requests
 import tempfile
 from sentence_transformers import SentenceTransformer
+from openai import OpenAI
 
 st.set_page_config(page_title="Vachanamrut GPT", layout="centered")
 st.title("🕉️ Vachanamrut GPT")
@@ -47,8 +47,7 @@ if chunks:
     index.add(embeddings)
 
     def ask_llm(context, question, sources):
-        openai.api_key = st.secrets["OPENAI_API_KEY"]
-
+        client = OpenAI()
         system_message = """
 You are a disciplined Swaminarayan scholar.
 
@@ -73,7 +72,7 @@ Question:
 Answer:
 """
 
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": system_message},
