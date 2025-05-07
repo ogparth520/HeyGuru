@@ -10,38 +10,68 @@ from openai import OpenAI
 
 st.set_page_config(page_title="HeyGuru!", layout="centered")
 
-# ✅ Custom style: force white background + black text in Streamlit Cloud
+# 🌟 Full visual theme styling
 st.markdown(
     """
     <style>
     .stApp {
-        background-color: #ffffff;
-        color: #000000;
+        background-color: #faf9f6;
+        color: #222222;
+        font-family: "Georgia", serif;
     }
 
-    h1, p, label, input, textarea {
-        color: #000000 !important;
+    h1, h2, p, label, input, textarea {
+        color: #222222 !important;
+        font-family: "Georgia", serif !important;
     }
 
     .block-container {
         padding-top: 2rem;
     }
+
+    hr {
+        border: none;
+        border-top: 1px solid #e0e0e0;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .upload-section, .answer-box {
+        background-color: #f7f7f7;
+        border-radius: 10px;
+        padding: 20px;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: #222222;
+        font-family: Georgia, serif;
+    }
+
+    .css-1cpxqw2.edgvbvh3 {  /* Fixes button alignment if needed */
+        color: #d97706;
+    }
+
+    .stButton>button {
+        background-color: #d97706 !important;
+        color: white !important;
+        border: none;
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# ✅ Centered header with black text
+# ✅ Beautiful centered header
 st.markdown(
     """
-    <div style='text-align: center; padding-top: 10px; padding-bottom: 10px;'>
-        <h1 style='font-size: 3em; color: #000000; font-family: Georgia, serif;'>
-            HeyGuru!
-        </h1>
-        <p style='font-size: 1.2em; color: #333333; font-family: Georgia, serif;'>
-            Ask spiritually grounded questions based on the Vachanamrut
-        </p>
+    <div style='text-align: center; padding-top: 10px;'>
+        <h1 style='font-size: 3em;'>HeyGuru!</h1>
+        <p style='font-size: 1.2em; color: #555;'>Ask spiritually grounded questions based on the Vachanamrut</p>
     </div>
+    <hr>
     """,
     unsafe_allow_html=True
 )
@@ -152,15 +182,7 @@ Answer:
             st.markdown("### 💬 Answer")
             st.markdown(
                 f"""
-                <div style='
-                    background-color: #f7f7f7;
-                    color: #000000;
-                    padding: 20px;
-                    border-radius: 10px;
-                    font-size: 1.1rem;
-                    line-height: 1.7;
-                    font-family: "Georgia", serif;
-                '>
+                <div class="answer-box">
                 {answer}
                 </div>
                 """,
