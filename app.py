@@ -8,9 +8,34 @@ import tempfile
 from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 
-st.set_page_config(page_title="Vachanamrut GPT", layout="centered")
-st.title("🕉️ Vachanamrut GPT")
-st.markdown("Ask spiritually grounded questions based on the Vachanamrut 📖")
+st.set_page_config(page_title="HeyGuru!", layout="centered")
+
+# 🌟 Inject custom white background and style
+st.markdown(
+    """
+    <style>
+    body {
+        background-color: #ffffff;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# 👋 Custom centered header with black text
+st.markdown(
+    """
+    <div style='text-align: center; padding-top: 10px; padding-bottom: 10px;'>
+        <h1 style='font-size: 3em; color: #000000; font-family: Georgia, serif;'>
+            HeyGuru!
+        </h1>
+        <p style='font-size: 1.2em; color: #333333; font-family: Georgia, serif;'>
+            Ask spiritually grounded questions based on the Vachanamrut
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 @st.cache_resource
 def load_model():
@@ -119,8 +144,8 @@ Answer:
             st.markdown(
                 f"""
                 <div style='
-                    background-color: #222;
-                    color: #f0f0f0;
+                    background-color: #f1f1f1;
+                    color: #000000;
                     padding: 20px;
                     border-radius: 10px;
                     font-size: 1.1rem;
