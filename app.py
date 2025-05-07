@@ -10,19 +10,28 @@ from openai import OpenAI
 
 st.set_page_config(page_title="HeyGuru!", layout="centered")
 
-# 🌟 Inject custom white background and style
+# ✅ Custom style: force white background + black text in Streamlit Cloud
 st.markdown(
     """
     <style>
-    body {
+    .stApp {
         background-color: #ffffff;
+        color: #000000;
+    }
+
+    h1, p, label, input, textarea {
+        color: #000000 !important;
+    }
+
+    .block-container {
+        padding-top: 2rem;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# 👋 Custom centered header with black text
+# ✅ Centered header with black text
 st.markdown(
     """
     <div style='text-align: center; padding-top: 10px; padding-bottom: 10px;'>
@@ -144,7 +153,7 @@ Answer:
             st.markdown(
                 f"""
                 <div style='
-                    background-color: #f1f1f1;
+                    background-color: #f7f7f7;
                     color: #000000;
                     padding: 20px;
                     border-radius: 10px;
