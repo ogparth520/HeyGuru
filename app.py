@@ -3,24 +3,21 @@ import json
 import numpy as np
 import faiss
 import re
-from sentence_transformers import SentenceTransformer
-from ollama import Client
+import openai
 import requests
 import tempfile
+from sentence_transformers import SentenceTransformer
 
-# Streamlit settings
 st.set_page_config(page_title="Vachanamrut GPT", layout="centered")
 st.title("🕉️ Vachanamrut GPT")
 st.markdown("Ask spiritually grounded questions based on the Vachanamrut 📖")
 
-# Load embedding model
 @st.cache_resource
 def load_model():
     return SentenceTransformer("all-MiniLM-L6-v2")
 
 model = load_model()
 
-# Upload or download JSON
 uploaded_file = st.file_uploader("📁 Upload your JSON file with embeddings:", type=["json"])
 use_external = st.checkbox("Or load from external link")
 
@@ -30,7 +27,7 @@ if uploaded_file:
 elif use_external:
     url = st.text_input("Paste public URL to your JSON file:")
     if url:
-        with st.spinner("Downloading..."):
+        with st.spinner("📥 Downloading..."):
             response = requests.get(url)
             if response.status_code == 200:
                 with tempfile.NamedTemporaryFile(delete=False) as tmp:
@@ -40,7 +37,6 @@ elif use_external:
             else:
                 st.error("Failed to download file. Check the link.")
 
-# Proceed only if chunks are loaded
 if chunks:
     embeddings = np.array([chunk["embedding"] for chunk in chunks]).astype("float32")
     ids = [chunk["vachanamrut_id"] for chunk in chunks]
@@ -51,7 +47,7 @@ if chunks:
     index.add(embeddings)
 
     def ask_llm(context, question, sources):
-        client = Client()
+        openai.api_key = st.secrets["OPENAI_API_KEY"]
 
         system_message = """
 You are a disciplined Swaminarayan scholar.
@@ -76,14 +72,17 @@ Question:
 
 Answer:
 """
-        response = client.chat(
-            model="mistral",
+
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": user_prompt}
-            ]
+            ],
+            temperature=0.7
         )
-        return response['message']['content']
+
+        return response.choices[0].message.content
 
     query = st.text_input("Ask a question:")
     if query:
@@ -111,11 +110,11 @@ Answer:
         full_context = " ".join(all_context_chunks).replace("\n", " ").strip()
         full_context = re.sub(r"\s{2,}", " ", full_context)
 
-        with st.spinner("🧠 Thinking deeply..."):
+        with st.spinner("🧘🏽‍♂️ Thinking deeply..."):
             answer = ask_llm(full_context, query, sorted(used_sources))
 
         if any(term in answer.lower() for term in ["sahasra", "[", "]", "tetrad"]):
             st.error("⚠️ The response included an invalid citation. Please try a different question.")
         else:
-            st.markdown("### 🧘🏽‍♂️ Answer")
+            st.markdown("### 💬 Answer")
             st.markdown(f"<div style='background-color:#f9f9f9;padding:15px;border-radius:10px'>{answer}</div>", unsafe_allow_html=True)
