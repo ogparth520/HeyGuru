@@ -2,5 +2,6 @@ streamlit
 sentence-transformers
 faiss-cpu
 numpy
-openai
 requests
+openai>=1.0.0
+
