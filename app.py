@@ -116,4 +116,19 @@ Answer:
             st.error("⚠️ The response included an invalid citation. Please try a different question.")
         else:
             st.markdown("### 💬 Answer")
-            st.markdown(f"<div style='background-color:#f9f9f9;padding:15px;border-radius:10px'>{answer}</div>", unsafe_allow_html=True)
+            st.markdown(
+                f"""
+                <div style='
+                    background-color: #222;
+                    color: #f0f0f0;
+                    padding: 20px;
+                    border-radius: 10px;
+                    font-size: 1.1rem;
+                    line-height: 1.7;
+                    font-family: "Georgia", serif;
+                '>
+                {answer}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
